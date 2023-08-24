@@ -1,0 +1,80 @@
+{
+  "compilerOptions": {
+    "declarationMap": true,
+    "strict": false,
+    "pretty": true,
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@models/*": [
+        "../models/src/*"
+      ],
+      "@models": [
+        "../models/src/index"
+      ],
+      "@app/account": [
+        "libs/account/src"
+      ],
+      "@app/account/*": [
+        "libs/account/src/*"
+      ],
+      "@app/utils": [
+        "libs/utils/src"
+      ],
+      "@app/utils/*": [
+        "libs/utils/src/*"
+      ],
+      "@app/orm": [
+        "libs/orm/src"
+      ],
+      "@app/orm/*": [
+        "libs/orm/src/*"
+      ],
+      "@app/auth": [
+        "libs/auth/src"
+      ],
+      "@app/auth/*": [
+        "libs/auth/src/*"
+      ],
+      "@app/test-env": [
+        "libs/test-env/src"
+      ],
+      "@app/test-env/*": [
+        "libs/test-env/src/*"
+      ],
+      "@app/logger": [
+        "libs/logger/src"
+      ],
+      "@app/logger/*": [
+        "libs/logger/src/*"
+      ],
+      "@app/global": [
+        "libs/global/src"
+      ],
+      "@app/global/*": [
+        "libs/global/src/*"
+      ],
+      "@app/auth-guard": [
+        "libs/auth-guard/src"
+      ],
+      "@app/auth-guard/*": [
+        "libs/auth-guard/src/*"
+      ]
+    }
+  }
+}

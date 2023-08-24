@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: '${COMPOSE_PROJECT_NAME}_mysql_dev'
+    image: 'mysql'
+    volumes:
+      - 'mysqlVolumeDev:/var/lib/mysql'
+    ports:
+      - '3306:3306'
+    env_file:
+      - ./server/.env.dev
+
+  redis:
+    image: 'redis:7.0.5-alpine'
+    container_name: '${COMPOSE_PROJECT_NAME}_redis_dev'
+    volumes:
+      - 'redisVolumeDev:/data'
+    ports:
+      - '6379:6379'
+
+  server:
+    container_name: '${COMPOSE_PROJECT_NAME}_server_dev'
+    image: '${COMPOSE_PROJECT_NAME}_server_dev'
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+      target: development
+    volumes:
+      - './server:/usr/src/app/server'
+      - './models:/usr/src/app/models'
+    ports:
+      - '${SERVER_PORT}:${SERVER_PORT}'
+    env_file:
+      - .env.dev
+      - ./server/.env.dev
+    command: pnpm start:dev
+    depends_on:
+      - redis
+      - mysql
+
+volumes:
+  redisVolumeDev: null
+  mysqlVolumeDev: null

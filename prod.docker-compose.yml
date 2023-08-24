@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: '${COMPOSE_PROJECT_NAME}_mysql_prod'
+    image: 'mysql'
+    volumes:
+      - 'mysqlVolumeProd:/var/lib/mysql'
+    env_file:
+      - ./server/.env.prod
+    restart: always
+
+  redis:
+    image: 'redis:7.0.5-alpine'
+    container_name: '${COMPOSE_PROJECT_NAME}_redis_prod'
+    environment: []
+    volumes:
+      - 'redisVolumeProd:/data'
+    restart: always
+
+  server:
+    container_name: '${COMPOSE_PROJECT_NAME}_server_prod'
+    image: '${COMPOSE_PROJECT_NAME}_server_prod:${TAG_SERVER}'
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+      target: production
+    env_file:
+      - .env.prod
+      - ./server/.env.prod
+    command: 'node /usr/src/app/server/dist/main'
+    depends_on:
+      - redis
+      - mysql
+    restart: always
+
+volumes:
+  redisVolumeProd: null
+  mysqlVolumeProd: null

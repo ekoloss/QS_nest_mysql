@@ -1,0 +1,31 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@app/account/(.*)": "<rootDir>/../libs/account/src/$1",
+    "@app/account": "<rootDir>/../libs/account/src",
+    "@app/utils/(.*)": "<rootDir>/../libs/utils/src/$1",
+    "@app/utils": "<rootDir>/../libs/utils/src",
+    "@app/orm/(.*)": "<rootDir>/../libs/orm/src/$1",
+    "@app/orm": "<rootDir>/../libs/orm/src",
+    "@app/auth/(.*)": "<rootDir>/../libs/auth/src/$1",
+    "@app/auth": "<rootDir>/../libs/auth/src",
+    "@app/test-env/(.*)": "<rootDir>/../libs/test-env/src/$1",
+    "@app/test-env": "<rootDir>/../libs/test-env/src",
+    "@app/logger/(.*)": "<rootDir>/../libs/logger/src/$1",
+    "@app/logger": "<rootDir>/../libs/logger/src",
+    "@app/global/(.*)": "<rootDir>/../libs/global/src/$1",
+    "@app/global": "<rootDir>/../libs/global/src",
+    "@app/auth-guard/(.*)": "<rootDir>/../libs/auth-guard/src/$1",
+    "@app/auth-guard": "<rootDir>/../libs/auth-guard/src"
+  }
+}

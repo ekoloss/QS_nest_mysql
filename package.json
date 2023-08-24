@@ -1,0 +1,20 @@
+{
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "migrate:db:prod": "docker exec -it quick_start_server_prod sh -c  \"cd /usr/src/app/server && ./node_modules/.bin/knex migrate:latest\"",
+    "migrate:db": "docker exec -it quick_start_server_dev sh -c  \"cd /usr/src/app/server && ./node_modules/.bin/knex migrate:latest\"",
+
+    "start": "docker compose --env-file=.env.dev up",
+    "build": "docker compose --file=prod.docker-compose.yml --env-file=.env.prod build",
+    "start:prod": "docker compose --file=prod.docker-compose.yml --env-file=.env.prod up -d",
+
+    "start:server": "docker compose --env-file=.env.dev up server",
+    "clean:server_container": "docker container stop quick_start_server_prod; docker container rm quick_start_server_prod",
+    "build:server": "docker compose --file=prod.docker-compose.yml --env-file=.env.prod build server",
+    "start:server:prod": "docker compose --file=prod.docker-compose.yml --env-file=.env.prod up -d server"
+  }
+}
