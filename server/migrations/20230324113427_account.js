@@ -24,9 +24,7 @@ exports.up = async function (knex) {
     }),
   ]);
 
-  // const id = 1;
-  await knex('account').insert({
-    // id,
+  const [id] = await knex('account').insert({
     login: 'superAdmin',
     password: '266e7081-1f47-56de-8504-f3ba92474195',
     role: {
@@ -37,7 +35,7 @@ exports.up = async function (knex) {
 
   const redis = new Redis(+process.env.REDIS_PORT, process.env.REDIS_HOST);
 
-  // await redis.set(`salt:${id}`, '0ea7d323-f762-4c87-a93e-eccef4adacbe');
+  await redis.set(`salt:${id}`, '0ea7d323-f762-4c87-a93e-eccef4adacbe');
 };
 
 exports.down = async function (knex) {
@@ -45,5 +43,7 @@ exports.down = async function (knex) {
 
   const redis = new Redis(+process.env.REDIS_PORT, process.env.REDIS_HOST);
   const keyList = await redis.keys('salt:*');
-  await redis.del(...keyList);
+  if (keyList.length) {
+    await redis.del(...keyList);
+  }
 };

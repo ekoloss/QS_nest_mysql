@@ -2,9 +2,9 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  Inject,
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { RedisService } from '@liaoliaots/nestjs-redis';
 import { startOfDay, endOfDay } from 'date-fns';
 import Redis from 'ioredis';
 import { raw, TransactionOrKnex } from 'objection';
@@ -21,21 +21,16 @@ import {
   IPaginateResult,
 } from '@models';
 import { AccountOrm } from '@app/orm';
-import { ErrorCheck, namespaces, Transaction } from '@app/utils';
+import { Cache, namespaces, Transaction } from '@app/utils';
 import { IRequestAuth } from '@app/utils';
 
 @Injectable()
 export class AccountService {
-  private readonly redis: Redis;
-
   constructor(
-    private readonly redisService: RedisService,
+    @Inject('redis') private readonly redis: Redis,
     private eventEmitter: EventEmitter2,
-  ) {
-    this.redis = this.redisService.getClient();
-  }
+  ) {}
 
-  @ErrorCheck()
   @Transaction()
   async create(
     { login, password, role }: IAccountCreateBody,
@@ -57,7 +52,6 @@ export class AccountService {
     return account;
   }
 
-  @ErrorCheck()
   async update(
     accountId: number,
     { login }: IAccountUpdateBody,

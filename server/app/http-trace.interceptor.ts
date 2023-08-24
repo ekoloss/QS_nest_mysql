@@ -7,6 +7,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HTTP_CODE_METADATA } from '@nestjs/common/constants';
+import { DBError } from 'objection';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
@@ -44,6 +45,7 @@ export class HttpTraceInterceptor implements NestInterceptor {
       catchError((err) => {
         const delay = Date.now() - now;
         const response = context.switchToHttp().getResponse() as NestResponse;
+
         if (
           [HttpStatus.NOT_FOUND, HttpStatus.TOO_MANY_REQUESTS].includes(
             err.status ?? response.statusCode,
@@ -55,14 +57,16 @@ export class HttpTraceInterceptor implements NestInterceptor {
               err.status ?? response.statusCode
             }] ${path} ${query} (${delay}ms)`,
           );
-        } else {
-          this.logger.warn(
-            err,
-            `${method} [${
-              err.status ?? response.statusCode
-            }] ${path} ${query} (${delay}ms)`,
-          );
+          return throwError(err);
         }
+
+        this.logger.error(
+          err instanceof DBError ? err.nativeError : err,
+          `${method} [${
+            err.status ?? response.statusCode
+          }] ${path} ${query} (${delay}ms)`,
+        );
+
         return throwError(err);
       }),
     );
