@@ -16,7 +16,7 @@ export interface IAccountModel extends ISoftDeleteModel, ITimingModel {
 export interface IAccountCreateBody
   extends Omit<
     IAccountModel,
-    'id' | 'is_deleted' | 'last_login' | 'created_at' | 'updated_at'
+    'id' | 'is_active' | 'last_login' | 'created_at' | 'updated_at'
   > {
   passwordConfirm: string;
 }
@@ -51,4 +51,4 @@ export interface IAccountChangePasswordBody
   oldPassword: string;
 }
 
-export type IAccountResponse = Omit<IAccountModel, 'password' | 'is_deleted'>;
+export type IAccountResponse = Omit<IAccountModel, 'password' | 'is_active'>;

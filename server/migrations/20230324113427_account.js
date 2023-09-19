@@ -2,27 +2,25 @@
 const Redis = require('ioredis');
 
 exports.up = async function (knex) {
-  await Promise.all([
-    knex.schema.createTable('account', (table) => {
-      table.increments('id').primary().unique();
+  await knex.schema.createTable('account', (table) => {
+    table.increments('id').primary().unique();
 
-      table.string('login').unique().notNullable();
-      table.string('password').notNullable();
-      table.jsonb('role').notNullable();
-      table.boolean('is_deleted').defaultTo(false).notNullable();
-      table.timestamp('last_login', { useTz: false });
-      table
-        .timestamp('created_at', { useTz: false })
-        .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
-        .notNullable();
-      table
-        .timestamp('updated_at', { useTz: false })
-        .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
-        .notNullable();
+    table.string('login').notNullable();
+    table.string('password').notNullable();
+    table.jsonb('role').notNullable();
+    table.boolean('is_active').defaultTo(true).nullable();
+    table.timestamp('last_login', { useTz: false });
+    table
+      .timestamp('created_at', { useTz: false })
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
+      .notNullable();
+    table
+      .timestamp('updated_at', { useTz: false })
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
+      .notNullable();
 
-      table.index(['is_deleted', 'login']);
-    }),
-  ]);
+    table.unique(['is_active', 'login']);
+  });
 
   const [id] = await knex('account').insert({
     login: 'superAdmin',

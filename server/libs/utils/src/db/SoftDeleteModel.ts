@@ -13,7 +13,7 @@ import { ISoftDeleteModel } from '@models';
 import { BaseModel, BaseQueryBuilder } from './BaseModel';
 
 export class SoftDeleteModel extends BaseModel implements ISoftDeleteModel {
-  readonly is_deleted!: boolean;
+  readonly is_active!: boolean;
   readonly updated_at!: string;
 
   QueryBuilderType!: SoftDeleteQueryBuilder<this>;
@@ -44,7 +44,7 @@ class SoftDeleteQueryBuilder<M extends Model, Q = M[]> extends BaseQueryBuilder<
 
   delete() {
     return this.update({
-      is_deleted: true,
+      is_active: null,
       updated_at: raw('CURRENT_TIME()'),
     } as PartialModelObject<BaseModel>);
   }
@@ -55,16 +55,16 @@ class SoftDeleteQueryBuilder<M extends Model, Q = M[]> extends BaseQueryBuilder<
 
   unDelete() {
     return this.update({
-      is_deleted: false,
+      is_active: true,
       updated_at: raw('CURRENT_TIME()'),
     } as PartialModelObject<BaseModel>);
   }
 
   isDeleted() {
-    return this.where(`${this.modelClass().tableName}.is_deleted`, true);
+    return this.whereNot(`${this.modelClass().tableName}.is_active`, true);
   }
 
   isNotDeleted() {
-    return this.where(`${this.modelClass().tableName}.is_deleted`, false);
+    return this.where(`${this.modelClass().tableName}.is_active`, true);
   }
 }

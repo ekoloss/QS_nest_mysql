@@ -162,7 +162,7 @@ export class AccountService {
   }
 
   private cleanPublicAccount(account: IAccountModel): IAccountResponse {
-    delete account?.is_deleted;
+    delete account?.is_active;
     delete account?.password;
 
     return account;

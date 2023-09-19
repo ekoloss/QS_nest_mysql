@@ -6,7 +6,7 @@ export class AccountOrm extends SoftDeleteModel implements IAccountModel {
   readonly login!: string;
   readonly password!: string;
   readonly role!: IAccountRole;
-  readonly is_deleted!: boolean;
+  readonly is_active!: boolean;
   readonly last_login!: string;
   readonly created_at!: string;
   readonly updated_at!: string;
@@ -26,7 +26,7 @@ export class AccountOrm extends SoftDeleteModel implements IAccountModel {
             user: { type: 'boolean' },
           },
         },
-        is_deleted: { type: 'boolean' },
+        is_active: { type: 'boolean', nullable: true },
         last_login: { type: 'string' },
         created_at: { type: 'string' },
         updated_at: { type: 'string' },

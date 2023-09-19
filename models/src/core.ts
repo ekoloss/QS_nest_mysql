@@ -22,7 +22,7 @@ export interface IOTTQuery {
 }
 
 export interface ISoftDeleteModel {
-  is_deleted: boolean;
+  is_active: boolean;
   updated_at: string;
 }
 
